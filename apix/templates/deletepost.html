@@ -1,0 +1,30 @@
+{% extends 'main.html'%}
+
+{%block content%}
+
+
+<div>   
+{% if user.is_authenticated %}
+    {% if user.user.id == post.user.id %} 
+        <h1> Delete Post </h1>
+
+        <form method="POST" action ="">
+            {%csrf_token%}
+            <p> Are you sure you want to delete "{{obj}}"?</p>
+
+            <a href="{{request.META.HTTP_REFERER}}">
+                
+                Go Back</a>
+
+            <input type="submit" value="Confirm"/>
+            
+        </form>
+    
+    </div>  
+    {%else%}
+    You are not authorized , to edit or delete this post 
+    {%endif%}
+{%else%}
+You need to login - in order to view that page...
+{%endif%}
+{%endblock content%}

@@ -1,0 +1,25 @@
+{% extends 'main.html'%}
+
+{% block content %}
+
+
+{%if user.is_authenticated%}
+    {% if user.profile.id == comment.user.id%} 
+            <div>
+                
+                <form class="form" action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <input type="Submit" value ="Submit"/>
+                </form>
+            </div>
+           
+    {%else%}
+            You are not authorized , to edit or delete this post 
+    {%endif%}
+
+{%else%}
+You need to login - in order to view that page...
+{%endif%}
+
+{% endblock content %}

@@ -1,0 +1,41 @@
+{% extends 'main.html'%}
+
+{%load static%}
+<style>
+    
+    .containerprofilo{
+            float: right;
+            width: 34%;
+            padding:57px;
+            height: 400px; /* Should be removed. Only for demonstration */
+      }
+</style>
+{%block content%}
+<div class="containerprofilo">
+    {% if profile.profile.image.url is not none %}
+    <div>
+        <img src="{{profile.profile.image.url}}"alt="Image should be here" width=150>
+    </div>
+        {% else %}
+    <img src="{% static 'images/default.png' %}" width=150> 
+    {% endif %}
+    <h1><a href ="{% url 'update_user_acc' %}">Edit User</a></h1>
+    <h1><a href ="{% url 'update_user_acc_pic' %}">Edit Image</a></h1>
+    <h1>Username: {{profile.profile.user}}</h1>
+    <h1>e-mail adress: {{profile.email}}</h1>
+    <h1>Activity:</h1>
+
+    <div>
+    
+{% for comment in post_comments %}
+<hr>
+<div><small>{% if comment.user.profile.image.url is not none %}<img src="{{comment.user.profile.image.url}}"width=25></div>{%else%}<img src="{% static 'images/default.png' %}" width=25>{%endif%}
+   Author: {{comment.user}} posted: {{comment.created|timesince}} ago </small>
+   <p> {{comment.body}}</p>
+    
+</div>
+    {%endfor%}
+    </div>
+</div>
+</div>
+{%endblock%}

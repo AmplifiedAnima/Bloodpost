@@ -1,0 +1,19 @@
+{%extends 'main.html'%}
+{%load static%}
+{%block content%}
+{%if user.is_authenticated%}
+
+{% for profile in profiles%}
+
+        <p><a href="{% url 'viewprofilepage' profile.id%}">{{profile.profile}}</a>
+        {% if profile.profile.image.url is not none %}  <img src="{{profile.profile.image.url}}"alt="Image should be here" width=150>
+        {%else%}<img src="{% static 'images/default.png' %}" width=50>
+        {%endif%}</p>
+
+        {%endfor%}
+{%else%}
+You are not authorized to see this page... Login or Sign-up here <a href="{% url 'login' %}">HERE</a>
+
+{%endif%}
+
+{%endblock content %}

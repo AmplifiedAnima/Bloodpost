@@ -1,0 +1,27 @@
+{% extends 'main.html'%}
+
+{%block content%}
+<div>   
+    {% if user.is_authenticated %}
+    <h1> Add Item</h1>
+    <form action="{% url 'addpost' %}"method="POST" enctype="multipart/form-data">
+        {%csrf_token%}
+        <table>
+        {{post}}
+        </table>
+        <input type= "Submit" value="Add"/>
+    </form>
+    
+
+    <script>
+        var user = "{{user.id}}";
+        document.getElementById('elder').value
+            = user;
+    </script>
+    {%else%}
+    Can't do that buddy.... not authorized...
+</div>  
+    {%endif%}
+
+    <p><a href="{% url 'mainpage' %}">Go back to blogpostwall</a></p>
+{%endblock content%}

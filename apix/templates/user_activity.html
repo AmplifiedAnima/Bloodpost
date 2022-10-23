@@ -1,0 +1,7 @@
+
+{% for comment in post_comments %}
+<hr>
+<div><small> Author: {{comment.user}} posted:{{comment.created|timesince}} ago </small><p>{{comment.body}}</p>
+    {%endfor%}
+</div>
+

@@ -1,0 +1,46 @@
+{% extends 'main.html' %}
+{%load static%}
+{%block content%}
+<div class="containerxxx">
+    <div><h2>title: {{post.name}}</h2></div>
+    <div><h2>created by : {{post.user}}</h2></div>
+
+    <div><h2>content : {{post.body}}</h2></div>
+    <div>{% if post.image.url is not none %}<img src="{{post.image.url}}"width=300>{%endif%}</div>
+
+   
+    <p></p>
+</div>
+{% for comment in post_comments %}
+
+<hr>
+
+<div>  
+        {% if comment.user.profile.image.url is not none %}<img src="{{comment.user.profile.image.url}}"width=50>
+        {%else%}<img src="{% static 'images/default.png' %}" width=50>
+        {%endif%}
+<div>
+    <small>Author: {{comment.user}} posted: {{comment.created|timesince}} ago {% if request.user.id == comment.user.id %}
+        <a href="{% url 'update-comment' comment.id %}"> EDIT</a>
+        <a href="{% url 'delete-comment' comment.id %}"> Delete</a>
+       
+     
+             {%endif%}</small>
+   <p> {{comment.body}} </p>
+   
+      
+</div>
+{%endfor%}
+
+
+<div class="comment-form">
+    {%if request.user.is_authenticated %}
+    <form method="POST" action="">
+        {% csrf_token%}
+    <input type="Text" name="body" placeholder="You can comment here"><input type="submit" value="Add">
+
+    </form>
+    
+</div>
+    {%endif%}
+{%endblock content%}

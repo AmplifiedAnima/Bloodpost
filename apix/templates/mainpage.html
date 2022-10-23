@@ -1,0 +1,66 @@
+
+<style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    .column {
+      float: left;
+      width: 50%;
+      padding:30px;
+      height: 400px; 
+    }
+    .row {
+        content: "";
+       
+        clear: both;
+      }
+</style>
+{% extends 'main.html' %}
+{%block content%}
+{%load static%}
+    <div class="header">
+        <ul><a style="text-decoration:none;" href="{% url 'addpost' %}"> Add post</a>
+    </div>
+<div class="row">
+
+            <div class="column">
+                
+                    {%for post in posts%}
+                    <hr>
+                        <p></p>
+                        <a style="text-decoration:none;" href="{% url 'post' post.id %}">{{post.name}}</a>
+                        <p></p>
+                        <a>{{post.body}}</a>
+                        <p></p>
+                        <a>{% if post.image.url is not none %}<img src="{{post.image.url}}"width=450>{%endif%}</a>
+                            <p></p>
+                            created by: {{post.user}}
+                            {% if user.is_authenticated %}
+                                {% if user.id == post.user.id%}
+                                <a style="text-decoration:none;" href="{% url 'postform' post.id %}"> Edit </a>
+                                <a style="text-decoration:none;" href="{% url 'deletepost' post.id %}">Delete</a>
+                                {%endif%}
+                            {%endif%}
+                        
+                    {%endfor%}
+
+            </div>
+            <p></p>
+        <div class="column">
+                Recent activity on BloodPost:
+                <p></p>
+                {% for comment in post_comments %}
+                
+                <small>{% if comment.user.profile.image.url is not none %}<img src="{{comment.user.profile.image.url}}"width=75>
+                    {%else%}<img src="{% static 'images/default.png' %}" width=75>{%endif%}
+                {{comment.user}} ADDED : || {{comment.created|timesince}} ago || </small>
+                <small> COMMENTING  ON: || {{comment.post}}</small>
+                <p>{{comment.body}}</p>
+                <hr>
+                {%endfor%}
+              
+                
+        </div>
+</div>
+{%endblock content %}
