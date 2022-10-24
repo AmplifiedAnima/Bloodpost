@@ -33,7 +33,7 @@
                         <p></p>
                         <a>{{post.body}}</a>
                         <p></p>
-                        <a>{% if post.image.url is not none %}<img src="{{post.image.url}}"width=450>{%endif%}</a>
+                        <a>{% if post.image.url is not none %}<img src="{{post.image.url}}"width=300>{%endif%}</a>
                             <p></p>
                             created by: {{post.user}}
                             {% if user.is_authenticated %}
@@ -56,7 +56,7 @@
                     {%else%}<img src="{% static 'images/default.png' %}" width=75>{%endif%}
                 {{comment.user}} ADDED : || {{comment.created|timesince}} ago || </small>
                 <small> COMMENTING  ON: || {{comment.post}}</small>
-                <p>{{comment.body}}</p>
+                <p>{%if user.is_authenticated %} {{comment.body}}{%else%} Sign-up to engage with BloodPost community! <a href="{% url 'register' %}">Click here!</a> {%endif%}</p>
                 <hr>
                 {%endfor%}
               

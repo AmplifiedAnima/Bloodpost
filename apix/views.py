@@ -1,4 +1,5 @@
 from http.client import HTTPResponse
+from time import sleep
 from django.shortcuts import render, redirect
 from .models import Post,Profile,Comment
 from django.contrib.auth import authenticate,login,logout
@@ -8,6 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.db.models import Q
+import time
 # Create your views here.
 
 
@@ -23,7 +25,7 @@ def registerPage(request):
             login(request, user)
             return redirect('mainpage')
         else:
-            messages.error(request, 'error (check if password matches ,or characters are valid')
+            messages.error(request, 'error (check if password matches ,or characters are valid)')
 
     return render (request , 'login_register.html',{'form':form})
 
@@ -160,7 +162,7 @@ def viewprofilepage(request,pk):
     context ={'profile':profile, 'posts':posts,'post_comments':post_comments}
     return render(request, 'viewprofilepage.html',context)
 
-@login_required(login_url='/login')
+@login_required(login_url='/profilepages')
 def profilepage(request,pk):
     profile = User.objects.get(profile=request.user.profile)
     posts = profile.post_set.all()
@@ -168,8 +170,11 @@ def profilepage(request,pk):
     context = { 'profile': profile, 'posts':posts,
     'post_comments':post_comments}
     return render(request, 'profilepage.html', context)
+ 
 
-@login_required(login_url='/login')
+        
+
+@login_required(login_url='/profilepages')
 def updateUser(request):
     user= User.objects.get(id=request.user.id)
     form = UserForm(instance=user)
@@ -181,7 +186,7 @@ def updateUser(request):
             return redirect('profilepage',request.user)
       
     return render(request, 'update_user_acc.html',{'form':form})
-
+@login_required(login_url='/profilepages')
 def updateUserImage(request):
     user=request.user.profile
     form = ChangeProfile(instance=user)
