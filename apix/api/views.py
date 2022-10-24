@@ -10,7 +10,7 @@ def getRoutes(request):
         'Get /api',
         'GET /api/posts',
         'GET /post/posts/:id'
-        'GET /post/posts/images'
+
     ]
     return Response(routes)
 
@@ -26,6 +26,6 @@ def getPosts(request):
 def getPost(request,pk):
     post = Post.objects.get(id=pk)
 
-    serializer= PostSerializer(posts, many=True)
+    serializer= PostSerializer(post, many=False)
     
     return Response(serializer.data)
